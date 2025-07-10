@@ -1,0 +1,19 @@
+@mixin container-wrapper {
+  width: 100%;
+  max-width: 1312px;
+  margin: auto;
+  padding-left: var(--lhv-grid-space-medium);
+  padding-right: var(--lhv-grid-space-medium);
+}
+
+@mixin card {
+  background-color: var(--lhv-card-white);
+  border-radius: var(--lhv-card-border-radius);
+}
+
+@mixin grid-item {
+  padding-right: calc(var(--lhv-grid-gutter-x) * 0.5);
+  padding-left: calc(var(--lhv-grid-gutter-x) * 0.5);
+  margin-top: var(--lhv-grid-gutter-y);
+  box-sizing: border-box;
+}

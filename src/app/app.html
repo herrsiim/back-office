@@ -1,1 +1,26 @@
-<router-outlet />
+<header>
+  <div class="grid-item" id="header-grid-left">
+    <img src="lhv-logo.svg" alt="LHV Logo" />
+    <div id="lhv-site-links">
+      <a>Bank</a>
+      <a>Investor</a>
+      <a>Financial portal</a>
+    </div>
+  </div>
+  <div class="grid-item" id="header-grid-right">Log out</div>
+</header>
+<div id="lhv-container">
+  <aside>
+    <nav>
+      <ul>
+        <li><a>Form</a></li>
+        <li><a>List</a></li>
+        <li><a>Details</a></li>
+        <li><a>Edit</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main>
+    <router-outlet />
+  </main>
+</div>

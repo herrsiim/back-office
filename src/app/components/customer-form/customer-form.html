@@ -1,1 +1,62 @@
-<p>customer-form works!</p>
+<form class="customer-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>First name</mat-label>
+    <input matInput formControlName="firstName" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Last name</mat-label>
+    <input matInput formControlName="lastName" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Identification code</mat-label>
+    <input matInput formControlName="idCode" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Issuing country</mat-label>
+    <mat-select formControlName="idCountry">
+      <mat-option *ngFor="let country of issuingCountries" [value]="country">
+        {{ country }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  @if (!isEstonianId) {
+  <ng-container>
+    <mat-form-field appearance="outline">
+      <mat-label>Birth date</mat-label>
+      <input matInput type="date" formControlName="birthDate" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Country of birth</mat-label>
+      <mat-select formControlName="birthCountry">
+        <mat-option *ngFor="let country of birthCountries" [value]="country">
+          {{ country }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+  }
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" type="email" />
+  </mat-form-field>
+
+  <div>
+    <button mat-button (click)="verifyEmail()" type="button">Verify</button>
+    <button mat-button (click)="unverifyEmail()" type="button">Unverify</button>
+    <span
+      *ngIf="form.get('emailVerified')?.value"
+      matBadge="✔"
+      matBadgeColor="primary"
+      >Verified</span
+    >
+    <span *ngIf="!form.get('emailVerified')?.value">Not verified</span>
+  </div>
+
+  <button matButton="filled" color="primary" type="submit">Save</button>
+</form>

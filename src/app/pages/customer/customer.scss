@@ -1,0 +1,6 @@
+@use "../../../styles/mixins.scss" as mixins;
+
+.lhv-card {
+  @include mixins.card;
+  padding: var(--lhv-card-padding-y) var(--lhv-card-padding-x);
+}
