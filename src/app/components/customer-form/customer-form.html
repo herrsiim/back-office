@@ -23,8 +23,7 @@
     </mat-select>
   </mat-form-field>
 
-  @if (!isEstonianId) {
-  <ng-container>
+  <ng-container *ngIf="!isEstonianId">
     <mat-form-field appearance="outline">
       <mat-label>Birth date</mat-label>
       <input matInput type="date" formControlName="birthDate" />
@@ -39,7 +38,6 @@
       </mat-select>
     </mat-form-field>
   </ng-container>
-  }
 
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>

@@ -1,6 +1,8 @@
 @use "@angular/material" as mat;
 @use "styles/variables";
 
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+
 html {
   @include mat.theme(
     (
@@ -9,8 +11,7 @@ html {
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Roboto,
-      density: 0,
+      typography: Inter,
     )
   );
 }
@@ -22,6 +23,6 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: #f4f4f4;
 }

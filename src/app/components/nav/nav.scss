@@ -1,0 +1,16 @@
+@use "../../../styles/mixins.scss" as mixins;
+
+nav {
+  @include mixins.card;
+  padding: 12px;
+
+  ul {
+    list-style-type: none;
+
+    li {
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+    }
+  }
+}

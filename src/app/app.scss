@@ -1,29 +1,5 @@
 @use "../styles/mixins.scss" as mixins;
 
-header {
-  width: 100%;
-  background-color: #fff;
-  box-shadow: 0 1px 2px #0000001a;
-  height: 80px;
-  padding: 0 16px;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 1rem;
-
-  #header-grid-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-
-    #lhv-site-links {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-}
-
 #lhv-container {
   display: flex;
   @include mixins.container-wrapper;
@@ -32,11 +8,6 @@ header {
     @include mixins.grid-item;
     max-width: 320px;
     width: 100%;
-
-    nav {
-      @include mixins.card;
-      padding: 12px;
-    }
   }
 
   main {

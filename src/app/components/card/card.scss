@@ -1,0 +1,7 @@
+@use "../../../styles/mixins.scss" as mixins;
+
+:host {
+  @include mixins.card;
+  display: block;
+  padding: var(--lhv-card-padding-y) var(--lhv-card-padding-x);
+}
