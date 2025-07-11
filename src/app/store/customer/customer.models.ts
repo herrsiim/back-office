@@ -3,8 +3,8 @@ export interface Customer {
   lastName: string;
   idCode: string;
   idCountry: string;
-  birthDate?: string;
-  birthCountry?: string;
+  birthDate: string;
+  birthCountry: string;
   email?: string;
   emailVerified?: boolean;
 }

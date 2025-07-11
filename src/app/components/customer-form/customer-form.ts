@@ -15,11 +15,9 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { Store } from '@ngrx/store';
 import { Customer } from '../../store/customer/customer.models';
-import {
-  selectCustomer,
-  selectLoading,
-} from '../../store/customer/customer.selectors';
+import { selectCustomer } from '../../store/customer/customer.selectors';
 import { CustomerActions } from '../../store/customer/customer.actions';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-customer-form',
@@ -39,39 +37,77 @@ import { CustomerActions } from '../../store/customer/customer.actions';
 export class CustomerForm implements OnInit {
   private store = inject(Store);
   private fb = inject(FormBuilder);
-
-  issuingCountries = ['EE', 'FI', 'LV', 'LT'];
-  birthCountries = ['Estonia', 'Finland', 'Latvia', 'Lithuania'];
+  isEstonianId = true;
+  issuingCountries: string[] = ['EE', 'FI', 'LV', 'LT'];
+  birthCountries: string[] = ['Estonia', 'Finland', 'Latvia', 'Lithuania'];
 
   form = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     idCode: ['', Validators.required],
     idCountry: ['EE', Validators.required],
-    birthDate: [''],
-    birthCountry: [''],
+    birthDate: ['', Validators.required],
+    birthCountry: ['', Validators.required],
     email: [''],
     emailVerified: [false],
   });
 
   customer$ = this.store.select(selectCustomer);
-  loading$ = this.store.select(selectLoading);
-
-  isEstonianId = computed(() => this.form.get('idCountry')?.value === 'EE');
 
   ngOnInit() {
     this.store.dispatch(CustomerActions.load());
 
     this.customer$.subscribe((customer) => {
-      if (customer) this.form.patchValue(customer);
+      if (customer) {
+        this.form.patchValue(customer);
+        this.isEstonianId = customer.idCountry === 'EE';
+      }
     });
 
     this.form.get('idCountry')?.valueChanges.subscribe((code) => {
+      this.isEstonianId = code === 'EE';
       if (code === 'EE') {
+        this.form.get('birthCountry')!.setValue('Estonia');
         this.form.get('birthDate')?.reset();
+
+        const idCode = this.form.get('idCode')!.value;
+        if (idCode && idCode.length === 11) {
+          const birthDate = this.extractBirthDateFromEstonianId(idCode);
+          this.form.get('birthDate')!.setValue(birthDate);
+        }
+      } else {
         this.form.get('birthCountry')?.reset();
+        this.form.get('birthDate')?.reset();
       }
     });
+
+    this.form.get('idCode')?.valueChanges.subscribe((code) => {
+      const country = this.form.get('idCountry')!.value;
+      if (country === 'EE' && code && code.length === 11) {
+        const birthDate = this.extractBirthDateFromEstonianId(code);
+        if (birthDate) {
+          this.form.get('birthDate')!.setValue(birthDate);
+          this.form.get('birthCountry')!.setValue('Estonia');
+        }
+      }
+    });
+  }
+
+  extractBirthDateFromEstonianId(idCode: string): string | null {
+    if (!/^\d{11}$/.test(idCode)) return null;
+
+    const centuryCode = parseInt(idCode[0], 10);
+    const year = parseInt(idCode.slice(1, 3), 10);
+    const month = parseInt(idCode.slice(3, 5), 10);
+    const day = parseInt(idCode.slice(5, 7), 10);
+
+    const century = centuryCode < 3 ? 1800 : centuryCode < 5 ? 1900 : 2000;
+    const fullYear = century + year;
+
+    const paddedMonth = String(month).padStart(2, '0');
+    const paddedDay = String(day).padStart(2, '0');
+
+    return `${fullYear}-${paddedMonth}-${paddedDay}`;
   }
 
   verifyEmail() {
@@ -83,7 +119,9 @@ export class CustomerForm implements OnInit {
   }
 
   onSubmit() {
+    const customer = this.form.getRawValue() as Customer;
     if (this.form.valid) {
+      console.log('Submitting customer:', customer);
       this.store.dispatch(
         CustomerActions.update({
           customer: this.form.getRawValue() as Customer,
