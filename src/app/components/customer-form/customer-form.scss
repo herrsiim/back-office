@@ -1,5 +1,29 @@
 form {
+  margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  width: 100%;
+  max-width: 29.25rem;
+  padding-left: calc(var(--lhv-grid-gutter-x, 0px) * 0.5);
+  padding-right: calc(var(--lhv-grid-gutter-x, 0px) * 0.5);
+}
+#email-verification-container {
+  margin-bottom: 1rem;
+}
+
+#email-verification {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  #actions {
+    width: 100%;
+    max-width: 130px;
+  }
+
+  #status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 }

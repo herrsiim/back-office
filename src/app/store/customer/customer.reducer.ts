@@ -26,8 +26,12 @@ export const customerReducer = createReducer(
     ...state,
     data: customer,
   })),
-  on(CustomerActions.emailVerificationSuccess, (state, { verified }) => ({
-    ...state,
-    data: state.data ? { ...state.data, emailVerified: verified } : null,
-  }))
+  on(CustomerActions.emailVerificationSuccess, (state, { verified }) => {
+    console.log('REDUCER sees verified =', verified);
+    console.log('REDUCER current state.data =', state.data);
+    return {
+      ...state,
+      data: state.data ? { ...state.data, emailVerified: verified } : null,
+    };
+  })
 );

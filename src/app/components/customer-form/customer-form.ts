@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
   OnInit,
 } from '@angular/core';
@@ -17,8 +16,8 @@ import { Store } from '@ngrx/store';
 import { Customer } from '../../store/customer/customer.models';
 import { selectCustomer } from '../../store/customer/customer.selectors';
 import { CustomerActions } from '../../store/customer/customer.actions';
-import { startWith } from 'rxjs';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-customer-form',
   imports: [
@@ -29,6 +28,9 @@ import { startWith } from 'rxjs';
     MatSelectModule,
     MatOptionModule,
     MatButtonModule,
+    MatOptionModule,
+    MatIconModule,
+    MatCardModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './customer-form.html',

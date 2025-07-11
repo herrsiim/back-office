@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerActions } from './customer.actions';
 import { CustomerService } from '../../services/customer.service';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
 @Injectable()
 export class CustomerEffects {
@@ -46,6 +46,7 @@ export class CustomerEffects {
             action.type === CustomerActions.verifyEmail.type
           )
           .pipe(
+            tap((res) => console.log('EMAIL VERIFY RESPONSE:', res)), // 👈 Lisa see
             map((res) =>
               CustomerActions.emailVerificationSuccess({
                 verified: res.verified,

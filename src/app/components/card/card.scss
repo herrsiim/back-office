@@ -3,5 +3,6 @@
 :host {
   @include mixins.card;
   display: block;
-  padding: var(--lhv-card-padding-y) var(--lhv-card-padding-x);
+  padding: 3rem var(--lhv-card-padding-x);
+  
 }
