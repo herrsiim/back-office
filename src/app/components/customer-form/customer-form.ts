@@ -18,6 +18,9 @@ import { selectCustomer } from '../../store/customer/customer.selectors';
 import { CustomerActions } from '../../store/customer/customer.actions';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { take } from 'rxjs';
+
 @Component({
   selector: 'app-customer-form',
   imports: [
@@ -39,6 +42,8 @@ import { MatCardModule } from '@angular/material/card';
 export class CustomerForm implements OnInit {
   private store = inject(Store);
   private fb = inject(FormBuilder);
+  private snackBar = inject(MatSnackBar);
+
   isEstonianId = true;
   issuingCountries: string[] = ['EE', 'FI', 'LV', 'LT'];
   birthCountries: string[] = ['Estonia', 'Finland', 'Latvia', 'Lithuania'];
@@ -123,12 +128,21 @@ export class CustomerForm implements OnInit {
   onSubmit() {
     const customer = this.form.getRawValue() as Customer;
     if (this.form.valid) {
-      console.log('Submitting customer:', customer);
-      this.store.dispatch(
-        CustomerActions.update({
-          customer: this.form.getRawValue() as Customer,
-        })
-      );
+      this.store.dispatch(CustomerActions.update({ customer }));
+      this.store
+        .select(selectCustomer)
+        .pipe(take(1))
+        .subscribe((updatedCustomer) => {
+          if (updatedCustomer) {
+            this.snackBar.open('Details updated successfully!', 'Close', {
+              duration: 3000,
+            });
+          } else {
+            this.snackBar.open('Failed to update details.', 'Close', {
+              duration: 3000,
+            });
+          }
+        });
     }
   }
 }

@@ -46,7 +46,6 @@ export class CustomerEffects {
             action.type === CustomerActions.verifyEmail.type
           )
           .pipe(
-            tap((res) => console.log('EMAIL VERIFY RESPONSE:', res)), // 👈 Lisa see
             map((res) =>
               CustomerActions.emailVerificationSuccess({
                 verified: res.verified,
